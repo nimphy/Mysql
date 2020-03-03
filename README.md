@@ -124,5 +124,32 @@ where b.id in
 ) and b.DepartmentId in (select Id from Department)
 order by a.Id asc,b.Salary desc
 ```
+---
+
+### 11， Leetcode1045. 买下所有产品的客户
++ 题意：给定交易表、商品表，输出买下了所有产品的客户。  
++ 思路：按客户id排序，然后数买了多少种商品，把这个count和总数比较。 
+```
+select customer_id 
+from Customer 
+group by customer_id
+having count(distinct product_key)=
+ (select count(distinct product_key) from Product)
+```
+---
+
+### 12， Leetcode626. 换座位
++ 题意：交换相邻的学生姓名。  
++ 思路：使用Case when...end，可以给大家重新编号，最后排序即可。  
+```
+select (
+    Case when Mod(id,2)=1 and id =(select count(*) from seat) then id
+         when Mod(id,2)=0 then id-1
+         else id+1
+    end
+) as id,student 
+from seat
+order by id
+```
 
 
